@@ -39,7 +39,7 @@ namespace TepigCore.Base.ModdedItem
 			SetMinionStaffDefaults();
 
 			Item.DamageType = DamageClass.Summon;
-			Item.crit = 0; // Minions can't crit
+			Item.crit = -4; // Minions can't crit
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.UseSound = SoundID.Item44;
 			Item.noMelee = true;
