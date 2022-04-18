@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TepigCore", "TepigCore.csproj", "{EDFD6C22-F478-4FCF-8B43-67AF6105F719}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDFD6C22-F478-4FCF-8B43-67AF6105F719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDFD6C22-F478-4FCF-8B43-67AF6105F719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDFD6C22-F478-4FCF-8B43-67AF6105F719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDFD6C22-F478-4FCF-8B43-67AF6105F719}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13C2AE7A-E66B-43BF-B270-FB3C22D70FD1}
+	EndGlobalSection
+EndGlobal

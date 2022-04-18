@@ -1,0 +1,10 @@
+Mods:
+{
+	TepigCore:
+	{
+		RecipeGroup:
+		{
+			Gems: "{$LegacyMisc.37} vanilla gem"
+		}
+	}
+}

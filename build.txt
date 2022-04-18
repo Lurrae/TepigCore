@@ -1,0 +1,8 @@
+displayName = Tepig's Core Mod
+author = Tepig125
+version = 0.1.0
+hideCode = false
+hideResources = false
+includeSource = true
+buildIgnore = *.csproj, *.sln, *.user, obj\*, bin\*, .vs\*
+includePDB = true
