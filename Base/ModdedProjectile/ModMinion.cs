@@ -1,12 +1,12 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace TepigCore.Base.ModdedProjectile
 {
-	public abstract class ModMinion : ModProjectile
+	public abstract class ModMinion<MinionBuff> : ModProjectile where MinionBuff : ModBuff
 	{
-		public abstract int MinionBuff { get; } // The ID of the buff this minion is associated with
 		public abstract bool ActiveHitbox { get; } // Does this minion damage things by passively walking/flying into them, or can it only damage things while aggroed?
 		public abstract bool IsTrueMinion { get; } // Does this minion take up minion slots?
 		public virtual float MinionSlots() { return 1f; } // How many minion slots does this minion take up? Unused if IsTrueMinion is false
@@ -25,7 +25,7 @@ namespace TepigCore.Base.ModdedProjectile
 
 			ProjectileID.Sets.CultistIsResistantTo[Type] = true; // Reduced damage against Lunatic Cultist, because all homing projectiles and minions do that
 
-			ProjectileID.Sets.MinionTargettingFeature[Type] = IsTrueMinion; // "True" Minions will prioritize targets which the player has right-clicked or hit with a whip
+			ProjectileID.Sets.MinionTargettingFeature[Type] = IsTrueMinion; // "True" Minions' weapons usually utilize the minion targetting feature
 			ProjectileID.Sets.MinionSacrificable[Type] = IsTrueMinion; // "True" Minions also require minion slots to function, and this automatically handles all of that
 
 			if (TieredMinion()) // Tiered Minions are "true" minions, but don't count towards the minion count
@@ -76,11 +76,11 @@ namespace TepigCore.Base.ModdedProjectile
 		{
 			if (owner.dead || !owner.active)
 			{
-				owner.ClearBuff(MinionBuff);
+				owner.ClearBuff(BuffType<MinionBuff>());
 				return false;
 			}
 
-			if (owner.HasBuff(MinionBuff))
+			if (owner.HasBuff(BuffType<MinionBuff>()))
 				Projectile.timeLeft = 2; // Gives minions infinite duration, while still allowing it to despawn almost instantly after the player loses the buff
 
 			return true;

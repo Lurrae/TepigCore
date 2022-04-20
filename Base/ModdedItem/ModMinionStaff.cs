@@ -4,13 +4,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
+using static Terraria.ModLoader.ModContent;
 
 namespace TepigCore.Base.ModdedItem
 {
-	public abstract class ModMinionStaff : ModItem
+	public abstract class ModMinionStaff<MinionBuff, MinionProj> : ModItem where MinionBuff : ModBuff where MinionProj : ModProjectile
 	{
-		public abstract int MinionBuff { get; } // The ID of the buff this item's minion is associated with
-		public abstract int MinionProj { get; } // The ID of the minion projectile
 		public virtual bool SpawnThroughWalls() { return true; } // Can this minion be spawned if the player doesn't have line of sight to it? In vanilla this defaults to true
 		public virtual Vector2 SpawnPos() { return Main.MouseWorld; } // Where should the minion be summoned? Most minions in vanilla spawn at the mouse position, so that's the default here too
 		public virtual bool TieredMinion() { return false; }
@@ -26,7 +25,8 @@ namespace TepigCore.Base.ModdedItem
 			StaticMinionStaffDefaults();
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-			ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true; // Allows players using a controller to spawn the minion easily
+			ItemID.Sets.GamepadWholeScreenUseRange[Type] = true; // Allows players using a controller to spawn the minion easily
+			ItemID.Sets.LockOnIgnoresCollision[Type] = true;
 		}
 		
 		public virtual void SetMinionStaffDefaults()
@@ -44,8 +44,8 @@ namespace TepigCore.Base.ModdedItem
 			Item.UseSound = SoundID.Item44;
 			Item.noMelee = true;
 			Item.useTime = Item.useAnimation = 30;
-			Item.buffType = MinionBuff;
-			Item.shoot = MinionProj;
+			Item.buffType = BuffType<MinionBuff>();
+			Item.shoot = ProjectileType<MinionProj>();
 		}
 
 		// Enable right-clicking so the player can use the minion targeting feature with this item
@@ -60,6 +60,7 @@ namespace TepigCore.Base.ModdedItem
 			if (player.altFunctionUse == 2)
 			{
 				player.MinionNPCTargetAim(true);
+				return base.UseItem(player);
 			}
 			// Stop player from spawning minions through walls if they shouldn't be
 			if (!SpawnThroughWalls() && !Collision.CanHit(player.position, 1, 1, Main.MouseWorld, 1, 1))
@@ -82,7 +83,7 @@ namespace TepigCore.Base.ModdedItem
 			}
 
 			// Apply the buff so the minion doesn't die instantly
-			player.AddBuff(MinionBuff, 2);
+			player.AddBuff(BuffType<MinionBuff>(), 2);
 
 			// If this is a tiered minion, spawn the counter for that minion
 			// Also return early if we already have one of the main minions so that we don't spawn duplicates of that
