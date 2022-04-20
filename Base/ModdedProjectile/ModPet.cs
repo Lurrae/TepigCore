@@ -1,12 +1,11 @@
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace TepigCore.Base.ModdedProjectile
 {
-	public abstract class ModPet : ModProjectile
+	public abstract class ModPet<PBuff> : ModProjectile where PBuff : ModBuff
 	{
-		public abstract int PetBuff { get; } // The ID of the buff this pet is associated with
-
 		public virtual void StaticPetDefaults()
 		{
 			// This is basically only used for projFrames
@@ -54,9 +53,9 @@ namespace TepigCore.Base.ModdedProjectile
 		
 		private bool CheckActive(Player owner)
 		{
-			if (owner.dead || !owner.active || !owner.HasBuff(PetBuff))
+			if (owner.dead || !owner.active || !owner.HasBuff(BuffType<PBuff>()))
 			{
-				owner.ClearBuff(PetBuff);
+				owner.ClearBuff(BuffType<PBuff>());
 				return false;
 			}
 
