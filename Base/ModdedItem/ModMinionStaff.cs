@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
@@ -141,6 +142,7 @@ namespace TepigCore.Base.ModdedItem
 				{
 					if (slotsLeft >= 1) // We need to have a slot left to add a tier to our minion
 					{
+						SoundEngine.PlaySound(SoundID.AbigailUpgrade, player.Center);
 						proj.minionSlots++;
 					}
 					return false; // We already found our projectile and added a tier to it, so we can return now
