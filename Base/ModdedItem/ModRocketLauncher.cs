@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,7 +40,7 @@ namespace TepigCore.Base.ModdedItem
 			// See localization files for name and tooltip
 			LauncherStaticDefaults();
 
-			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+			TepigCore.ResearchAmt(Type, 1);
 		}
 		
 		public virtual void SetLauncherDefaults()

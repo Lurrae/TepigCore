@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -7,6 +8,11 @@ namespace TepigCore
 {
 	public class TepigCore : Mod
 	{
+		public static void ResearchAmt(int item, int amount) // Used to shorten the amount of text needed in items' SetStaticDefaults
+		{
+			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[item] = amount;
+		}
+
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("ItemName.DemoniteBar"), new int[]

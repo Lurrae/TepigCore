@@ -1,5 +1,4 @@
 using Terraria;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,7 +8,7 @@ namespace TepigCore.Base.ModdedItem
 	{
 		public override void SetStaticDefaults()
 		{
-			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+			TepigCore.ResearchAmt(Type, 1);
 			ItemID.Sets.SummonerWeaponThatScalesWithAttackSpeed[Type] = true;
 		}
 
