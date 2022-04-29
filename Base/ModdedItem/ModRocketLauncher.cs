@@ -32,7 +32,7 @@ namespace TepigCore.Base.ModdedItem
 
 		public virtual void LauncherStaticDefaults()
 		{
-			// AmmoID.Sets.SpecificLauncherAmmoProjectileMatches MUST be added by each individual rocket launcher! Otherwise things will break fsr
+			// AmmoID.Sets.SpecificLauncherAmmoProjectileMatches MUST be added by each individual rocket launcher! Otherwise things will break and idk why
 		}
 
 		public sealed override void SetStaticDefaults()

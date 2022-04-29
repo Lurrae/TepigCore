@@ -140,7 +140,7 @@ namespace TepigCore.Base.ModdedProjectile
 
 		private bool HasRandomizedMid = false;
 		private int MidSprite = 0;
-		private Dictionary<int, int> ChosenMidSprites = new();
+		private readonly Dictionary<int, int> ChosenMidSprites = new();
 
 		public override bool PreDraw(ref Color lightColor)
 		{

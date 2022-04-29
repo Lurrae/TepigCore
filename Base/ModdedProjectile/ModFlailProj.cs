@@ -101,7 +101,7 @@ namespace TepigCore.Base.ModdedProjectile
 
 			int bounceDist = throwDist + 5; // Handles how far the flail travels when bouncing off a block
 
-			float meleeSpeedMod = 1f / player.meleeSpeed;
+			float meleeSpeedMod = 1f / player.GetAttackSpeed(DamageClass.Melee);
 			throwSpeed *= meleeSpeedMod;
 			maxSpdPerFrame *= meleeSpeedMod;
 			recoverDistance *= meleeSpeedMod;

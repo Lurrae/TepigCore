@@ -15,7 +15,7 @@ namespace TepigCore
 
 		public override void AddRecipeGroups()
 		{
-			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("ItemName.DemoniteBar"), new int[]
+			RecipeGroup group = new(() => Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("ItemName.DemoniteBar"), new int[]
 			{
 				ItemID.DemoniteBar,
 				ItemID.CrimtaneBar

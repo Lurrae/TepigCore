@@ -9,7 +9,6 @@ namespace TepigCore.Base.ModdedItem
 		public override void SetStaticDefaults()
 		{
 			TepigCore.ResearchAmt(Type, 1);
-			ItemID.Sets.SummonerWeaponThatScalesWithAttackSpeed[Type] = true;
 		}
 
 		public abstract int Damage { get; }
@@ -31,6 +30,7 @@ namespace TepigCore.Base.ModdedItem
 			// This sets up this weapon as a whip
 			// It automatically sets almost every necessary value for the weapon, we just need to put a value and rarity
 			Item.DefaultToWhip(Item.shoot, Damage, KnockBack, ShootSpeed, UseTime);
+			Item.DamageType = DamageClass.SummonMeleeSpeed; // This MIGHT be unnecessary, but I have it here just in case
 		}
 
 		// This code is VERY necessary, because without it whips will begin to spawn duplicate projectiles when used with autoswing
