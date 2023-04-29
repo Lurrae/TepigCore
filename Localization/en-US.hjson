@@ -1,10 +1,1 @@
-Mods:
-{
-	TepigCore:
-	{
-		RecipeGroup:
-		{
-			Gems: "{$LegacyMisc.37} vanilla gem"
-		}
-	}
-}
+Mods.TepigCore.RecipeGroup.Gems: Any vanilla gem

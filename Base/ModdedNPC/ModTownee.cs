@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -31,9 +32,10 @@ namespace TepigCore.Base.ModdedNPC
 
 		public sealed override void SetStaticDefaults()
 		{
-			TowneeStaticDefaults();
-
 			NPCID.Sets.DangerDetectRange[Type] = 700;
+			NPCID.Sets.ShimmerTownTransform[Type] = true;
+
+			TowneeStaticDefaults();
 			
 			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new(0)
 			{
@@ -63,205 +65,15 @@ namespace TepigCore.Base.ModdedNPC
 			NPC.knockBackResist = 0.5f;
 		}
 
-		public virtual WeightedRandom<string> ModChat()
-		{
-			return null;
-		}
-
+		// Will automatically load most kinda of dialogue
+		// Currently does not support most boss downed bools, certain biomes, world info, and misc. things
+		// See https://github.com/tModLoader/tModLoader/pull/3386/files#diff-be053587123833ab8908af47484c75c893a1857d83495bc6049451d326adc0d9R436 for a full list of substitutions NOT included by default
 		public override string GetChat()
 		{
-			WeightedRandom<string> chat = new();
-			string keyLocation = DialogueKey;
-			LocalizedText[] dialogues = Language.FindAll(Lang.CreateDialogFilter(keyLocation));
+			var substitutions = Lang.CreateDialogSubstitutionObject(NPC);
+			var filter = Lang.CreateDialogFilter(DialogueKey, substitutions);
 
-			if (ModChat() != null)
-			{
-				chat.Add(ModChat());
-			}
-
-			int guide = NPC.FindFirstNPC(NPCID.Guide);
-			int clothier = NPC.FindFirstNPC(NPCID.Clothier);
-
-			// Events
-			if (Main.bloodMoon)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("BloodMoon"))
-					{
-						if (!dialogue.Key.Contains("_Guide"))
-						{
-							chat.Add(Language.GetTextValue(dialogue.Key), 3);
-						}
-						else if (guide >= 0)
-						{
-							chat.Add(Language.GetTextValue(dialogue.Key, Main.npc[guide].GivenName));
-						}
-					}
-				}
-			}
-			if (Main.IsItStorming)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("Storm"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-			else
-			{
-				if (Main.IsItRaining)
-				{
-					foreach (LocalizedText dialogue in dialogues)
-					{
-						if (dialogue.Key.Contains("Rain"))
-						{
-							chat.Add(Language.GetTextValue(dialogue.Key), 3);
-						}
-					}
-				}
-				if (Main.IsItAHappyWindyDay)
-				{
-					foreach (LocalizedText dialogue in dialogues)
-					{
-						if (dialogue.Key.Contains("WindyDay"))
-						{
-							chat.Add(Language.GetTextValue(dialogue.Key), 3);
-						}
-					}
-				}
-			}
-			if (BirthdayParty.PartyIsUp)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("Party"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-			if (Sandstorm.Happening && Main.LocalPlayer.ZoneDesert)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("Sandstorm"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-			if (Main.slimeRain)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("SlimeRain"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-
-			// Biomes/Environment
-			if (Main.LocalPlayer.ZoneGraveyard)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("Graveyard"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-			if (NPC.homeless)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("Homeless"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-
-			if (Main.dayTime)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("Day"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-			else
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("Night"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key), 3);
-					}
-				}
-			}
-
-			// Post-boss
-			if (NPC.downedBoss1 || NPC.downedSlimeKing || (NPC.downedSlimeKing && NPC.downedQueenSlime) || NPC.downedBoss2 || NPC.downedBoss3 || Main.hardMode)
-			{
-				foreach (LocalizedText dialogue in dialogues)
-				{
-					if (dialogue.Key.Contains("PostBoss"))
-					{
-						//Main.NewText(dialogue.Key);
-						if (!dialogue.Key.Contains("_Clothier"))
-						{
-							chat.Add(Language.GetTextValue(dialogue.Key));
-						}
-						else if (clothier >= 0)
-						{
-							chat.Add(Language.GetTextValue(dialogue.Key, Main.npc[clothier].GivenName));
-						}
-					}
-					else
-					{
-						if (!dialogue.Key.Contains("Hint_") && ((dialogue.Key.Contains("Hardmode") && Main.hardMode) || (dialogue.Key.Contains("KingSlime") && NPC.downedSlimeKing) || (dialogue.Key.Contains("QueenSlime") && NPC.downedQueenSlime) || (dialogue.Key.Contains("SlimeRoyals") && NPC.downedSlimeKing && NPC.downedQueenSlime)))
-						{
-							if (!dialogue.Key.Contains("_Player"))
-							{
-								chat.Add(Language.GetTextValue(dialogue.Key));
-							}
-							else
-							{
-								chat.Add(Language.GetTextValue(dialogue.Key, Main.LocalPlayer.name));
-							}
-						}
-					}
-				}
-			}
-
-			// Other
-			foreach (LocalizedText dialogue in dialogues)
-			{
-				if (dialogue.Key.Contains("Normal"))
-				{
-					// Even though we don't handle keys with Serena's name here, we still need to exclude them from the "default" things
-					if (!dialogue.Key.Contains("_Serena") && !dialogue.Key.Contains("_BC") && !dialogue.Key.Contains("_NoBC"))
-					{
-						chat.Add(Language.GetTextValue(dialogue.Key));
-					}
-					else
-					{
-						if ((dialogue.Key.Contains("_BC") && ModLoader.TryGetMod("BossChecklist", out Mod _)) || (dialogue.Key.Contains("_NoBC") && !ModLoader.TryGetMod("BossChecklist", out Mod _)))
-						{
-							chat.Add(Language.GetTextValue(dialogue.Key));
-						}
-					}
-				}
-			}
-
-			return chat.Get();
+			return Language.SelectRandom(filter).FormatWith(substitutions);
 		}
 
 		public override bool CanGoToStatue(bool toKingStatue) => (toKingStatue && IsMale) || (!toKingStatue && !IsMale);

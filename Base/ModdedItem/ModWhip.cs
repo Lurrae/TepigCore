@@ -6,11 +6,6 @@ namespace TepigCore.Base.ModdedItem
 {
 	public abstract class ModWhip : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			TepigCore.ResearchAmt(Type, 1);
-		}
-
 		public abstract int Damage { get; }
 		public abstract float KnockBack { get; }
 		public abstract float ShootSpeed { get; }

@@ -42,6 +42,7 @@ namespace TepigCore.Base.ModdedProjectile
 			Projectile.DamageType = DamageClass.Melee;
 			Projectile.friendly = true;
 			Projectile.penetrate = -1;
+			Projectile.ContinuouslyUpdateDamage = true;
 		}
 
 		// Draw the chain from the player to the mace
@@ -304,11 +305,11 @@ namespace TepigCore.Base.ModdedProjectile
 		}
 
 		// Reduce damage by 40% while spinning the flail
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
 			if (Projectile.ai[0] == (int)FlailStateID.Channel)
 			{
-				damage = (int)(damage * 0.6f);
+				Projectile.damage = (int)(Projectile.originalDamage * 0.6f);
 			}
 		}
 
@@ -370,7 +371,7 @@ namespace TepigCore.Base.ModdedProjectile
 				{
 					Collision.HitTiles(Projectile.position, velocity, Projectile.width, Projectile.height);
 				}
-				SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+				SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
 			}
 
 			// Have the flail return to the player without allowing them to make it fall

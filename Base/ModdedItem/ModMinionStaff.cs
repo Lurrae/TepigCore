@@ -17,7 +17,6 @@ namespace TepigCore.Base.ModdedItem
 
 		public sealed override void SetStaticDefaults()
 		{
-			TepigCore.ResearchAmt(Type, 1); // Registers how many of this item are needed to fully research it (in this case, 1)
 			ItemID.Sets.GamepadWholeScreenUseRange[Type] = true; // Allows players using a controller to spawn the minion easily
 			ItemID.Sets.LockOnIgnoresCollision[Type] = true;
 
@@ -77,7 +76,6 @@ namespace TepigCore.Base.ModdedItem
 
 		public sealed override void SetStaticDefaults()
 		{
-			TepigCore.ResearchAmt(Type, 1);
 			ItemID.Sets.GamepadWholeScreenUseRange[Type] = true; // Allows players using a controller to spawn the minion easily
 			ItemID.Sets.LockOnIgnoresCollision[Type] = true;
 

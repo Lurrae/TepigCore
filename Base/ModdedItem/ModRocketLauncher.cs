@@ -39,8 +39,6 @@ namespace TepigCore.Base.ModdedItem
 		{
 			// See localization files for name and tooltip
 			LauncherStaticDefaults();
-
-			TepigCore.ResearchAmt(Type, 1);
 		}
 		
 		public virtual void SetLauncherDefaults()

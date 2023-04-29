@@ -1,2 +1,2 @@
-A core mod used for all of my other content mods, like Terrarmory and Lurrenia Mod!
-It doesn't add any content on its own, though.
+A core mod used for all of my other content mods, like Terrarmory and my main content mod!
+It doesn't add any content on its own, though. It's just a place to store code that I plan to use across several mods.

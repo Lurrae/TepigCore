@@ -25,6 +25,8 @@ namespace TepigCore.Base.ModdedProjectile
 
 		public override void SetDefaults()
 		{
+			WhipSetDefaults();
+
 			Projectile.width = 22;
 			Projectile.height = 28;
 			Projectile.friendly = true;
@@ -99,7 +101,7 @@ namespace TepigCore.Base.ModdedProjectile
 		}
 
 		// This triggers the tag damage on enemies and sets the minion target
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			target.AddBuff(TagDebuff, 240);
 			if (ExtraDebuff() != 0)
