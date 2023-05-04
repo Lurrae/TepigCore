@@ -32,6 +32,7 @@ namespace TepigCore.Base.ModdedProjectile
 		public Vector2 SpriteSize = new(22, 28); // The size of one frame of the whip's size
 		public int ExtraDustID = -1; // If this whip summons extra dust particles, it should use this ID. If this is -1, no extra dust is spawned
 		public float DustVelMult = 2; // If this whip summons extra dust particles, how fast should they travel?
+		public Color? DustColorOverride = null; // Allows one to override the default draw color of extra dust spawned by the whip
 		public bool IsFullbright = false; // Should the whole whip be drawn without taking brightness into account?
 		public bool FullbrightLine = false; // Should only the line be drawn without brightness?
 		public bool HasLine = true; // Whether or not the whip draws a line behind its sprite
@@ -76,7 +77,7 @@ namespace TepigCore.Base.ModdedProjectile
 
 					Vector2 vel = Projectile.WhipPointsForCollision[^2].DirectionTo(Projectile.WhipPointsForCollision[^1]).SafeNormalize(Vector2.Zero);
 
-					Dust whipDust = Dust.NewDustDirect(beltTip.TopLeft(), beltTip.Width, beltTip.Height, ExtraDustID);
+					Dust whipDust = Dust.NewDustDirect(beltTip.TopLeft(), beltTip.Width, beltTip.Height, ExtraDustID, newColor: DustColorOverride ?? default);
 					whipDust.velocity = vel * DustVelMult;
 				}
 			}
