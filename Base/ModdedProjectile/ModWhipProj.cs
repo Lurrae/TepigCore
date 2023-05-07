@@ -108,12 +108,11 @@ namespace TepigCore.Base.ModdedProjectile
 			OnHitExtras(target, hit, damageDone);
 		}
 
-		// TODO: Figure out how to use the scaleMult parameter
 		private void DrawLine(List<Vector2> list, bool fullBright, Color lineColor, float scaleMult)
 		{
 			Texture2D texture = FishingLineOverrideTexture ?? TextureAssets.FishingLine.Value;
 			Rectangle frame = texture.Frame();
-			Vector2 origin = OverrideTextureOrigin ?? new((frame.Width - 8) / 2, 2);
+			Vector2 origin = OverrideTextureOrigin ?? new(frame.Width / 2, 0);
 
 			Vector2 pos = list[0];
 			for (int i = 0; i < list.Count - 2; i++)
@@ -127,9 +126,9 @@ namespace TepigCore.Base.ModdedProjectile
 				{
 					color = Lighting.GetColor(element.ToTileCoordinates(), lineColor);
 				}
-				Vector2 scale = new(1f, (diff.Length() + 2) / frame.Height);
+				Vector2 scale = new(1, (diff.Length() + 2) / frame.Height);
 
-				Main.EntitySpriteDraw(texture, pos - Main.screenPosition, frame, color, rotation, origin, scale, SpriteEffects.None, 0);
+				Main.EntitySpriteDraw(texture, pos - Main.screenPosition, frame, color, rotation, origin, scale * scaleMult, SpriteEffects.None, 0);
 
 				pos += diff;
 			}
@@ -156,7 +155,7 @@ namespace TepigCore.Base.ModdedProjectile
 			for (int i = 0; i < list.Count - 1; i++)
 			{
 				Rectangle frame = new(0, 0, (int)SpriteSize.X, (int)SpriteSize.Y);
-				Vector2 origin = new(5, 8);
+				Vector2 origin = new((int)SpriteSize.X / 2, (int)SpriteSize.Y / 2);
 				float scale = 1;
 
 				// Determine which sprite from the sheet to use
