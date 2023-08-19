@@ -42,7 +42,7 @@ namespace TepigCore.Base.ModdedProjectile
 			Projectile.DamageType = DamageClass.Melee;
 			Projectile.friendly = true;
 			Projectile.penetrate = -1;
-			Projectile.ContinuouslyUpdateDamage = true;
+			Projectile.ContinuouslyUpdateDamageStats = true;
 		}
 
 		// Draw the chain from the player to the mace
