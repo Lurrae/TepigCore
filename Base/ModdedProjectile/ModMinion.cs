@@ -146,7 +146,7 @@ namespace TepigCore.Base.ModdedProjectile
 			return false;
 		}
 
-		public override void Kill(int timeLeft) // Re-summon the minion if it dies prematurely
+		public override void OnKill(int timeLeft) // Re-summon the minion if it dies prematurely
 		{
 			Player player = Main.player[Projectile.owner];
 
