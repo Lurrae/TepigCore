@@ -30,14 +30,7 @@ namespace TepigCore.Base.ModdedItem
 
 		public sealed override void SetDefaults()
 		{
-			Item.DamageType = DamageClass.Summon;
-			Item.crit = -4; // Minions can't crit
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.UseSound = SoundID.Item44;
-			Item.noMelee = true;
-			Item.useTime = Item.useAnimation = 30;
-			Item.buffType = BuffType<MBuff>();
-			Item.shoot = ProjectileType<MProj>();
+			Item.DefaultToMinion(BuffType<MBuff>(), ProjectileType<MProj>(), 30);
 
 			SetMinionStaffDefaults();
 		}
