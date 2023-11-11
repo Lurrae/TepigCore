@@ -211,6 +211,33 @@ namespace TepigCore
 		}
 
 		/// <summary>
+		/// This method sets a variety of Item values common to ammo.<br/>
+		/// Specifically:<code>
+		/// 
+		/// Item.damageType = DamageClass.Ranged;
+		/// Item.maxStack = Item.CommonMaxStack;
+		/// Item.consumable = true;
+		/// 
+		/// Item.shoot = projectileType;
+		/// Item.shootSpeed = velocity;
+		/// Item.ammo = ammoType;</code><br/>
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="ammoType"></param>
+		/// <param name="projectileType"></param>
+		/// <param name="velocity"></param>
+		public static void DefaultToAmmo(this Item item, int ammoType, int projectileType, float velocity)
+		{
+			item.DamageType = DamageClass.Ranged;
+			item.maxStack = Item.CommonMaxStack;
+			item.consumable = true;
+
+			item.shoot = projectileType;
+			item.shootSpeed = velocity;
+			item.ammo = ammoType;
+		}
+
+		/// <summary>
 		/// This method sets a variety of Item values common to minion weapons.<br/>
 		/// Specifically:<code>
 		/// 
