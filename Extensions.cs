@@ -411,7 +411,7 @@ namespace TepigCore
 	{
 		public static Condition BestiaryCompletionPercent(float targetPercent)
 		{
-			string description = Language.GetTextValue("Mods.MoreTownsfolk.Conditions.BestiaryCompletionPercent", targetPercent);
+			string description = Language.GetTextValue("Mods.TepigCore.Conditions.BestiaryCompletionPercent", targetPercent);
 
 			return new Condition(description, () => Main.GetBestiaryProgressReport().CompletionPercent >= targetPercent);
 		}
