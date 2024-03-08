@@ -1,2 +1,32 @@
-A core mod used for all of my other content mods, like Terrarmory and my main content mod!
-It doesn't add any content on its own, though. It's just a place to store code that I plan to use across several mods.
+A core mod used for all of my other content mods, like Terrarmory and Terratweaks! It doesn't add any content on its own, though. It's just a place to store code that I plan to use across several mods.
+Modders who would like to use this mod for themselves can feel free to! Lurrae's Core Mod is open-source, so it should be easy enough to look through it and get access to what you need.
+
+Changelog:
+v1.0:
+- Initial release
+- Includes additional ModItem classes to simplify creation of minion staves, rocket launchers, and whips
+- Includes an additional ModNPC class to simply creation of town NPCs (including automated loading of dialogues using tmod's currently-incomplete dialogue substitutions)
+- Includes additional ModProjectile classes to simplify creation of flails, minions, pets, spears, and whips
+- Includes an Extensions class with the following methods that can be called:
+	- Conversions.ToFrames(float seconds, int extraUpdates = 0) - Converts seconds into frames (1 second = 60 frames). Set extraUpdates to Projectile.extraUpdates as needed
+	- Conversions.ToSeconds(float frames, int extraUpdates = 0) - Converts frames into seconds (60 frames = 1 second). Set extraUpdates to Projectile.extraUpdates as needed
+	- Conversions.ToPixels(float blocks) - Converts blocks into pixels (1 block = 16 pixels)
+	- Conversions.ToBlocks(float pixels) - Converts pixels into blocks (16 pixels = 1 block)
+	- Projectile.IsBeeRelated() - Checks if the projectile can be buffed by the Hive Pack (i.e, is a Bee, Giant Bee, Wasp, or Hornet Stinger)
+	- Item.CloneShopValues_TownNPCDrop() - Sets the item's rarity to Green and its value to 50 silver
+	- Player.LicenseOrExchangePet(Item sItem, ref bool petBoughtFlag, int npcType, string textKeyForLicense, int netMessageData) - A copy of the private vanilla method of the same name that allows modded town pet licenses to call it without reflection!
+- Includes several new item defaults methods:
+	- Item.DefaultToFlail(int singleSwingTime, int projType, float shotVelocity, int newHeight = 32, int newWidth = 32) - Sets several item values common to flails
+	- Item.DefaultToYoyo(int projType, int singleShotTime, float shotVelocity, int newHeight = 32, int newWidth = 32, bool hasAutoReuse = false) - Sets several item values common to yoyos
+	- Item.DefaultToBoomerang(int projType, int singleShotTime, float shotVelocity, int newHeight = 32, int newWidth = 32, bool hasAutoReuse = false) - Sets several item values common to boomerangs
+	- Item.DefaultToSword(int singleSwingTime, int projType = 0, int shotVelocity = 0, int newHeight = 32, int newWidth = 32, bool hasAutoReuse = false) - Sets several item values common to swords
+	- Item.DefaultToMeleeWeapon(int singleSwingTime, int newHeight = 32, int newWidth = 32, bool hasAutoReuse = false) - Sets several item values common to melee weapons
+	- Item.DefaultToAmmo(int ammoType, int projectileType, float velocity) - Sets several item values common to ammo
+	- Item.DefaultToMinion(int buffType, int projType, int singleSwingTime = 36, int manaCost = 10, int newHeight = 32, int newWidth = 32) - Sets several item values common to minions
+	- Item.DefaultToSentry(int projType, int manaCost = 20, int singleSwingTime = 30, int newHeight = 32, int newWidth = 32) - Sets several item values common to sentries
+	- Item.DefaultToSummonWeapon(int manaCost, int singleSwingTime, int newHeight = 32, int newWidth = 32) - Sets several item values common to summon weapons
+	- Item.DefaultToArmor(int defense, int newHeight = 26, int newWidth = 26) - Sets several item values common to armor pieces
+	- Item.DefaultToDevSet(int rarity, int newHeight = 26, int newWidth = 26) - Sets several item values common to dev set pieces
+- Includes a new Condition:
+	- ExtraConditions.BestiaryCompletionPercent(float targetPercent) - Can be used in NPC shops to make items that are only sold once a certain percent of the bestiary has been filled in, like vanilla does with some Zoologist items
+- Includes a ModdedVariantNPCProfile, which can be used to create custom town pets (or other town NPCs that have distinct variants like the town pets) without vanilla freaking out because it can't find the textures/names

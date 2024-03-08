@@ -44,6 +44,11 @@ namespace TepigCore
 
 	public static class Extensions
 	{
+		/// <summary>
+		/// Checks if a given projectile can be buffed by the Hive Pack. Projectiles that can be buffed are <see cref="ProjectileID.Bee"/>, <see cref="ProjectileID.GiantBee"/>, <see cref="ProjectileID.Wasp"/>, and <see cref="ProjectileID.HornetStinger"/>
+		/// </summary>
+		/// <param name="proj"></param>
+		/// <returns>true if this projectile is buffable by the Hive Pack, false otherwise</returns>
 		public static bool IsBeeRelated(this Projectile proj)
 		{
 			return proj.type == ProjectileID.Bee || proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Wasp || proj.type == ProjectileID.HornetStinger;
@@ -386,7 +391,7 @@ namespace TepigCore
 		/// <param name="item"></param>
 		public static void CloneShopValues_TownNPCDrop(this Item item)
 		{
-			item.SetShopValues(ItemRarityColor.Green2, Item.sellPrice(silver: 50));
+			item.SetShopValues(ItemRarityColor.Green2, Item.buyPrice(silver: 50));
 		}
 	}
 
@@ -420,14 +425,16 @@ namespace TepigCore
 	public class ModdedVariantNPCProfile : ITownNPCProfile
 	{
 		private string _rootFilePath;
+		private string _localizationString;
 		private string _npcBaseName;
 		private int[] _variantHeadIDs;
 		private string[] _variants;
 		internal Dictionary<string, Asset<Texture2D>> _variantTextures = new();
 
-		public ModdedVariantNPCProfile(string npcFileTitleFilePath, string npcBaseName, int[] variantHeadIds, params string[] variantTextureNames)
+		public ModdedVariantNPCProfile(string npcFileTitleFilePath, string locString, string npcBaseName, int[] variantHeadIds, params string[] variantTextureNames)
 		{
 			_rootFilePath = npcFileTitleFilePath;
+			_localizationString = locString;
 			_npcBaseName = npcBaseName;
 			_variantHeadIDs = variantHeadIds;
 			_variants = variantTextureNames;
@@ -453,7 +460,7 @@ namespace TepigCore
 		}
 
 		public int RollVariation() => Main.rand.Next(_variants.Length);
-		public string GetNameForVariant(NPC npc) => WorldGen.genRand.NextFromCollection(Language.FindAll(Lang.CreateDialogFilter("Mods.MoreTownsfolk.NPCNames." + _npcBaseName + "Names_" + _variants[npc.townNpcVariationIndex])).ToList()).Value;
+		public string GetNameForVariant(NPC npc) => WorldGen.genRand.NextFromCollection(Language.FindAll(Lang.CreateDialogFilter(_localizationString + _npcBaseName + "Names_" + _variants[npc.townNpcVariationIndex])).ToList()).Value;
 
 		public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
 		{

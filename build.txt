@@ -1,6 +1,6 @@
 displayName = Lurrae's Core Mod
 author = Lurrae
-version = 0.1.0
+version = 1.0
 hideCode = false
 hideResources = false
 includeSource = true

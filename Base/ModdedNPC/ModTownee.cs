@@ -37,7 +37,7 @@ namespace TepigCore.Base.ModdedNPC
 
 			TowneeStaticDefaults();
 			
-			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new(0)
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new()
 			{
 				Velocity = 1f,
 				Direction = -1
