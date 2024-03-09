@@ -2,6 +2,10 @@ A core mod used for all of my other content mods, like Terrarmory and Terratweak
 Modders who would like to use this mod for themselves can feel free to! Lurrae's Core Mod is open-source, so it should be easy enough to look through it and get access to what you need.
 
 Changelog:
+v1.0.1:
+- The ModFlailProj class now uses an array of strings for ChainTex instead of a single string. Now you can define multiple textures, and they'll cycle through in order!
+- The ModFlailProj class also has a new method, OnStartRetracting(). This allows you to, for example, fire a secondary projectile like the Drippler Crippler does
+- Fixed issues with ModFlailProj drawing chains with hardcoded width and height values instead of dynamically getting them from the texture
 v1.0:
 - Initial release
 - Includes additional ModItem classes to simplify creation of minion staves, rocket launchers, and whips

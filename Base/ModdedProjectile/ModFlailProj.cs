@@ -23,7 +23,7 @@ namespace TepigCore.Base.ModdedProjectile
 
 	public abstract class ModFlailProj : ModProjectile
 	{
-		public abstract string ChainTex { get; }
+		public abstract string[] ChainTex { get; }
 
 		public virtual void SetStats(ref int throwTime, ref float throwSpeed, ref float recoverDistance, ref float recoverDistance2, ref int hitCooldown, ref int channelHitCooldown)
 		{
@@ -51,20 +51,29 @@ namespace TepigCore.Base.ModdedProjectile
 			Vector2 playerCenter = Main.player[Projectile.owner].MountedCenter;
 			Vector2 center = Projectile.Center;
 			Vector2 distToProj = playerCenter - Projectile.Center;
-			float projRotation = distToProj.ToRotation() - 1.57f;
+			float projRotation = distToProj.ToRotation() - MathHelper.PiOver2;
 			float distance = distToProj.Length();
+			int textureNum = 0;
 			for (int i = 0; i < 1000; i++)
 			{
-				if (distance > 4f && !float.IsNaN(distance) && ChainTex != "") // Ensure the flail is far enough away from the player and that a chain texture was provided
+				if (distance > 4f && !float.IsNaN(distance) && ChainTex.Length > 0) // Ensure the flail is far enough away from the player and that a chain texture was provided
 				{
+					textureNum++;
+					if (textureNum >= ChainTex.Length)
+						textureNum = 0;
+					Texture2D chainTex = Request<Texture2D>(ChainTex[textureNum]).Value;
+
 					distToProj.Normalize();
-					distToProj *= 8f;
+					distToProj *= chainTex.Height;
 					center += distToProj;
 					distToProj = playerCenter - center;
 					distance = distToProj.Length();
-					Color drawColor = lightColor;
 
-					Main.EntitySpriteDraw(Request<Texture2D>(ChainTex).Value, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y), new Rectangle(0, 0, 18, 12), drawColor, projRotation, new Vector2(18 * 0.5f, 12 * 0.5f), 1f, SpriteEffects.None, 0);
+					Color drawColor = lightColor;
+					Rectangle sourceRect = new(0, 0, chainTex.Width, chainTex.Height);
+					Vector2 origin = new(chainTex.Width * 0.5f, chainTex.Height * 0.5f);
+
+					Main.EntitySpriteDraw(chainTex, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y), sourceRect, drawColor, projRotation, origin, 1f, SpriteEffects.None, 0);
 				}
 			}
 
@@ -173,6 +182,7 @@ namespace TepigCore.Base.ModdedProjectile
 						Projectile.ai[1] = 0f;
 						Projectile.netUpdate = true;
 						Projectile.velocity *= 0.3f;
+						OnStartRetracting();
 					}
 
 					// Set player's direction and enemy i-frames
@@ -299,6 +309,20 @@ namespace TepigCore.Base.ModdedProjectile
 			// If a specific flail needs to do anything unusual, that happens after everything else
 			ExtraAI();
 		}
+
+		/// <summary>
+		/// When the flail has just switched from <see cref="FlailStateID.FlyOut"/> to <see cref="FlailStateID.Return"/>, this method is called. 
+		/// This can be used to, say, fire a secondary projectile like the Drippler Crippler does
+		/// </summary>
+		public virtual void OnStartRetracting()
+		{
+			// This method can be used to do something as soon as the projectile switches from FlyOut to Return
+			// Useful for replicating things like Drippler Crippler's secondary projectile
+		}
+
+		/// <summary>
+		/// Additional AI method for flails. Runs at the end of the main <see cref="AI()"/> field
+		/// </summary>
 		public virtual void ExtraAI()
 		{
 			// If a projectile has anything extra it needs to do, that goes here
