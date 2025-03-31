@@ -28,7 +28,7 @@ namespace TepigCore.Base.ModdedNPC
 		}
 
 		public abstract bool IsMale { get; } // Are you a boy or a girl? - Professor Oak
-		public abstract string DialogueKey { get; } // Gets an individual NPC's dialogue's localization string
+		public abstract string DialogueKey { get; } // Gets an individual NPC's dialogue's localization string- this should usually be "Mods.MyMod.NPCs.MyNPC."
 
 		public sealed override void SetStaticDefaults()
 		{
@@ -48,7 +48,7 @@ namespace TepigCore.Base.ModdedNPC
 
 		public sealed override void SetDefaults()
 		{
-			// Putting HitSound and DeathSound above the TowneeSetDefaults allows them to be overriden if needed!
+			// Putting HitSound and DeathSound above the TowneeSetDefaults allows them to be overridden if needed!
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 
@@ -70,10 +70,18 @@ namespace TepigCore.Base.ModdedNPC
 		// See https://github.com/tModLoader/tModLoader/pull/3386/files#diff-be053587123833ab8908af47484c75c893a1857d83495bc6049451d326adc0d9R436 for a full list of substitutions NOT included by default
 		public override string GetChat()
 		{
-			var substitutions = Lang.CreateDialogSubstitutionObject(NPC);
-			var filter = Lang.CreateDialogFilter(DialogueKey, substitutions);
+			// Prioritize text for events (graveyard, party, rain, windy, and storm)
+			if (NPC.HasSpecialEventText(DialogueKey, out string eventText))
+			{
+				return eventText;
+			}
+			else
+			{
+				var substitutions = Lang.CreateDialogSubstitutionObject(NPC);
+				var filter = Lang.CreateDialogFilter(DialogueKey + "Dialogue.", substitutions);
 
-			return Language.SelectRandom(filter).FormatWith(substitutions);
+				return Language.SelectRandom(filter).FormatWith(substitutions);
+			}
 		}
 
 		public override bool CanGoToStatue(bool toKingStatue) => (toKingStatue && IsMale) || (!toKingStatue && !IsMale);

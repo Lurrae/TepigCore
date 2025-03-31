@@ -42,6 +42,17 @@ namespace TepigCore
 		}
 	}
 
+	public static class ChatColors
+	{
+		public static readonly Color Event = new(50, 255, 130);
+		public static readonly Color BossSpawn = new(175, 75, 255);
+		public static readonly Color PlayerDied = new(225, 25, 25);
+		public static readonly Color NPCDied = new(255, 25, 25);
+		public static readonly Color NPCArrived = new(50, 125, 255);
+		public static readonly Color Generic = new(255, 240, 20);
+		public static readonly Color Party = new(255, 0, 160);
+	}
+
 	public static class Extensions
 	{
 		/// <summary>
